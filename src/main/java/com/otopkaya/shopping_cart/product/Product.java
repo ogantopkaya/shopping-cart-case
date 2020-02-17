@@ -6,7 +6,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Data
 @EqualsAndHashCode(of = "productId")
-@ToString
 public class Product {
 
     private static final AtomicInteger count = new AtomicInteger(0); // For generating incremental ids
@@ -45,4 +44,8 @@ public class Product {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return title;
+    }
 }

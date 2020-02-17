@@ -6,8 +6,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Data
 @EqualsAndHashCode(of = "categoryId")
-@ToString
-public class Category {
+@ToString(of = {"title"})
+public class Category implements Comparable {
 
     private static final AtomicInteger count = new AtomicInteger(0); // For generating incremental ids
 
@@ -24,4 +24,8 @@ public class Category {
     @Setter(AccessLevel.PRIVATE)
     private Category parent;
 
+    @Override
+    public int compareTo(Object o) {
+        return Integer.compare(this.categoryId, ((Category) o).categoryId);
+    }
 }

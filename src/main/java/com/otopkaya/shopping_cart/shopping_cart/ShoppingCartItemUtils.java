@@ -2,7 +2,7 @@ package com.otopkaya.shopping_cart.shopping_cart;
 
 import com.otopkaya.shopping_cart.product.Category;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ShoppingCartItemUtils {
@@ -19,6 +19,17 @@ public class ShoppingCartItemUtils {
 
     public static int distinctCategoryCount(List<ShoppingCartItem> items) {
         return (int) items.stream().map(x -> x.getProduct().getCategory()).distinct().count();
+    }
+
+    public static HashMap<Category, List<ShoppingCartItem>> groupedByCategory(List<ShoppingCartItem> items) {
+        HashMap<Category, List<ShoppingCartItem>> result = new HashMap<>();
+        for (ShoppingCartItem item : items) {
+            Category category = item.getProduct().getCategory();
+            List<ShoppingCartItem> cartItems = result.getOrDefault(category, new ArrayList<ShoppingCartItem>());
+            cartItems.add(item);
+            result.put(category, cartItems);
+        }
+        return result;
     }
 
 }

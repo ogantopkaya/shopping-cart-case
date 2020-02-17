@@ -1,6 +1,7 @@
 package com.otopkaya.shopping_cart.shopping_cart;
 
 import com.otopkaya.shopping_cart.delivery.DeliveryCostCalculator;
+import com.otopkaya.shopping_cart.product.Category;
 import com.otopkaya.shopping_cart.product.Product;
 import com.otopkaya.shopping_cart.coupon.DiscountCoupon;
 import com.otopkaya.shopping_cart.campaign.DiscountCampaign;
@@ -123,7 +124,44 @@ public class ShoppingCart {
 
     @Override
     public String toString() {
-        //TODO: Implement
-        return "ShoppingCart{}";
+        HashMap<Category, List<ShoppingCartItem>> groupedByCategory = ShoppingCartItemUtils.groupedByCategory(this.shoppingCartItems);
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(String.format("%10s %1s", "Category", "|"));
+        stringBuilder.append(String.format("%15s %1s %10s %1s %8s %1s %10s %1s %10s %1s %10s",
+                "Product", "|", "Quantity", "|", "Price", "|", "Total", "|",
+                "Discount", "|", "Total"));
+
+        stringBuilder.append("\n");
+        stringBuilder.append(String.format("%s", "-------------------------------------------------------------------------------------------"));
+        stringBuilder.append("\n");
+
+        groupedByCategory.forEach( (category, items) -> {
+            for (int i = 0; i < items.size(); i++) {
+                String categoryTitle = i == 0 ? category.getTitle() : "";
+                stringBuilder
+                        .append(String.format("%10s %1s", categoryTitle, "|"))
+                        .append(items.get(i).toString()).append("\n");
+            }
+
+            stringBuilder.append(String.format("%s", "-------------------------------------------------------------------------------------------"));
+
+            stringBuilder.append("\n");
+
+        });
+
+
+        stringBuilder.append(String.format("%11s %78s", "Total", this.getTotalAmountAfterDiscounts()));
+        stringBuilder.append("\n");
+        stringBuilder.append(String.format("%11s %78s", "Coupons", -this.getCouponDiscounts()));
+        stringBuilder.append("\n");
+        stringBuilder.append(String.format("%11s %78s", "Total", this.getTotalAmountAfterCoupons()));
+        stringBuilder.append("\n");
+        stringBuilder.append(String.format("%11s %78s", "Delivery", this.deliveryPrice));
+        stringBuilder.append("\n");
+        stringBuilder.append(String.format("%11s %78s", "Grand Total", this.getGrandTotal()));
+
+        return stringBuilder.toString();
     }
 }

@@ -23,11 +23,13 @@ public class ShoppingCartItemTest {
 
         Assert.assertEquals(item.getProduct(),product);
         Assert.assertEquals(item.getProduct().getCategory(),category);
+        Assert.assertEquals(item.getOriginalSalePrice(), 15, 0);
         Assert.assertEquals(item.getSalePrice(), 15, 0);
         Assert.assertEquals(item.getQuantity(), 10);
 
         item.addDiscount(10);
         Assert.assertEquals(item.getSalePrice(), 5, 0);
+        Assert.assertEquals(item.getOriginalSalePrice(), 15, 0);
     }
 
 }
