@@ -13,7 +13,6 @@ public class CategoryTest {
         TestUtils.resetCounters();
     }
 
-
     @Test
     public void testConstuctor(){
         Category cat1 = new Category("cat1", null);
